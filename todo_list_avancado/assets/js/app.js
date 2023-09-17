@@ -49,3 +49,21 @@ todo_form.addEventListener('click', (event) => {
         saveTodo(input_value);
     };
 });
+
+/* */
+window.addEventListener('click', (event) => {
+    const target_element = event.target;
+    const parent_element = target_element.closest('div');
+
+    if (target_element.classList.contains('finish_todo')) { 
+        parent_element.classList.toggle('done');
+    };
+
+    if (target_element.classList.contains('remove_todo')) { 
+        parent_element.remove();
+    };
+    
+    if (target_element.classList.contains('edit_todo')) { 
+
+    };
+});
