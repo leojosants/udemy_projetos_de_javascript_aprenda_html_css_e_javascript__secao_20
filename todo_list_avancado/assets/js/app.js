@@ -35,11 +35,11 @@ const saveTodo = (text, done = 0, save = 1) => {
     todo.appendChild(remove_button);
 
     /* using data from local storage */
-    if (done) { 
+    if (done) {
         todo.classList.add('done');
     };
 
-    if (save) { 
+    if (save) {
         saveTodoLocalStorage({ text, done });
     };
 
@@ -129,6 +129,25 @@ const saveTodoLocalStorage = (todo) => {
     localStorage.setItem('todos', JSON.stringify(todos));
 };
 
+/* */
+const loadTodos = () => {
+    const todos = getTodosLocalStorage();
+
+    todos.forEach((todo) => {
+        saveTodo(todo.text, todo.done, 0);
+    });
+};
+
+const removeTodoLocalStorage = (todo_text) => {
+    const todos = getTodosLocalStorage();
+
+    const filtered_todos = todos.filter((todo) => {
+        todo.text !== todo_text;
+    });
+
+    localStorage.setItem('todos', JSON.stringify(filtered_todos));
+};
+
 /* events */
 todo_form.addEventListener('click', (event) => {
     event.preventDefault();
@@ -155,6 +174,7 @@ document.addEventListener('click', (event) => {
 
     if (target_element.classList.contains('remove_todo')) {
         parent_element.remove();
+        removeTodoLocalStorage(todo_title);
     };
 
     if (target_element.classList.contains('edit_todo')) {
@@ -200,3 +220,6 @@ filter_select.addEventListener('change', (event) => {
     const filter_value = event.target.value;
     filterTodo(filter_value);
 });
+
+/* */
+loadTodos();
