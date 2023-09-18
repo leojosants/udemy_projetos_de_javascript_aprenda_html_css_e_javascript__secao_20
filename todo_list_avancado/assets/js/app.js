@@ -1,5 +1,8 @@
 /* element selection */
 const cancel_edit_button = document.querySelector('#cancel_edit_button');
+const filter_select = document.querySelector('#filter_select');
+const search_input = document.querySelector('#search_input');
+const erase_button = document.querySelector('#erase_button');
 const todo_input = document.querySelector('#todo_input');
 const edit_input = document.querySelector('#edit_input');
 const todo_form = document.querySelector('#todo_form');
@@ -56,6 +59,22 @@ const updateTodo = (text) => {
     });
 };
 
+/* */
+const getSearchTodos = (search) => {
+    const todos = document.querySelectorAll('.todo');
+
+    todos.forEach((todo) => {
+        let todo_title = todo.querySelector('h3').innerText.toLowerCase();
+        const normalized_search = search.toLowerCase();
+
+        todo.style.display = 'flex';
+
+        if (!todo_title.includes(normalized_search)) {
+            todo.style.display = 'none';
+         };
+    });
+};
+
 /* events */
 todo_form.addEventListener('click', (event) => {
     event.preventDefault();
@@ -107,4 +126,17 @@ edit_form.addEventListener('submit', (event) => {
     };
 
     toggleForms();
+});
+
+/* */
+search_input.addEventListener('keyup', (event) => {
+    const search = event.target.value;
+    getSearchTodos(search);
+});
+
+/* */
+erase_button.addEventListener('click', (event) => {
+    event.preventDefault();
+    search_input.value = '';
+    search_input.dispatchEvent(new Event('keyup'));
 });
