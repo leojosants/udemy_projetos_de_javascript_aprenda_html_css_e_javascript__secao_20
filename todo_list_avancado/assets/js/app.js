@@ -71,8 +71,40 @@ const getSearchTodos = (search) => {
 
         if (!todo_title.includes(normalized_search)) {
             todo.style.display = 'none';
-         };
+        };
     });
+};
+
+/* */
+const filterTodo = (filter_value) => {
+    const todos = document.querySelectorAll('.todo');
+
+    switch (filter_value) {
+        case 'all':
+            todos.forEach((todo) => {
+                todo.style.display = 'flex';
+            });
+            break;
+
+        case 'done':
+            todos.forEach((todo) => {
+                todo.classList.contains('done')
+                    ? (todo.style.display = 'flex')
+                    : (todo.style.display = 'none')
+            });
+            break;
+
+        case 'todo':
+            todos.forEach((todo) => {
+                !todo.classList.contains('done')
+                    ? (todo.style.display = 'flex')
+                    : (todo.style.display = 'none')
+            });
+            break;
+
+        default:
+            break;
+    }
 };
 
 /* events */
@@ -139,4 +171,10 @@ erase_button.addEventListener('click', (event) => {
     event.preventDefault();
     search_input.value = '';
     search_input.dispatchEvent(new Event('keyup'));
+});
+
+/* */
+filter_select.addEventListener('change', (event) => {
+    const filter_value = event.target.value;
+    filterTodo(filter_value);
 });
