@@ -11,7 +11,7 @@ const edit_form = document.querySelector('#edit_form');
 let old_input_value;
 
 /* functions */
-const saveTodo = (text) => {
+const saveTodo = (text, done = 0, save = 1) => {
     const todo = document.createElement('div');
     todo.classList.add('todo');
 
@@ -33,6 +33,15 @@ const saveTodo = (text) => {
     remove_button.classList.add('remove_todo');
     remove_button.innerHTML = '<i class="fa-solid fa-xmark"></i>';
     todo.appendChild(remove_button);
+
+    /* using data from local storage */
+    if (done) { 
+        todo.classList.add('done');
+    };
+
+    if (save) { 
+        saveTodoLocalStorage({ text, done });
+    };
 
     todo_list.appendChild(todo);
     todo_input.value = '';
@@ -105,6 +114,19 @@ const filterTodo = (filter_value) => {
         default:
             break;
     }
+};
+
+/* local storage */
+const getTodosLocalStorage = () => {
+    const todos = JSON.parse(localStorage.getItem('todos')) || [];
+    return todos;
+};
+
+/* */
+const saveTodoLocalStorage = (todo) => {
+    const todos = getTodosLocalStorage();
+    todos.push(todo);
+    localStorage.setItem('todos', JSON.stringify(todos));
 };
 
 /* events */
