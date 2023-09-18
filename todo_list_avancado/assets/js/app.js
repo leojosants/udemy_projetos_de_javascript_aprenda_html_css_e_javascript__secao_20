@@ -64,6 +64,7 @@ const updateTodo = (text) => {
 
         if (todo_title.innerText === old_input_value) {
             todo_title.innerText = text;
+            updateTodoLocalStorage(old_input_value, text)
         };
     });
 };
@@ -138,6 +139,7 @@ const loadTodos = () => {
     });
 };
 
+/* */
 const removeTodoLocalStorage = (todo_text) => {
     const todos = getTodosLocalStorage();
 
@@ -146,6 +148,32 @@ const removeTodoLocalStorage = (todo_text) => {
     });
 
     localStorage.setItem('todos', JSON.stringify(filtered_todos));
+};
+
+/* */
+const updateTodosStatusLocalStorage = (todo_text) => {
+    const todos = getTodosLocalStorage();
+
+    todos.map((todo) => {
+        todo.text === todo_text
+            ? todo.done = !todo.done
+            : null;
+    });
+
+    localStorage.setItem('todos', JSON.stringify(todos));
+};
+
+/* */
+const updateTodoLocalStorage = (todo_old_text, todo_new_text) => {
+    const todos = getTodosLocalStorage();
+
+    todos.map((todo) => {
+        todo.text === todo_old_text
+            ? todo.text = todo_new_text
+            : null;
+    });
+
+    localStorage.setItem('todos', JSON.stringify(todos));
 };
 
 /* events */
@@ -170,6 +198,7 @@ document.addEventListener('click', (event) => {
 
     if (target_element.classList.contains('finish_todo')) {
         parent_element.classList.toggle('done');
+        updateTodosStatusLocalStorage(todo_title);
     };
 
     if (target_element.classList.contains('remove_todo')) {
