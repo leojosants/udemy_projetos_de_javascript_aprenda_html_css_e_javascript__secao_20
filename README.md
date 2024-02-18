@@ -1,2 +1,2 @@
 # Projeto 19 - Todo List Avançado
-Projeto com recurso de salvas dados na localStorage.
+Projeto com recursos de salvar dados na localStorage.
